@@ -138,7 +138,7 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
       // If evaluation is successful, return result
       return eval.toString();
     } catch (e) {
-      
+      // In case of any error, return 'Error'
       print("Error encountered: $e");
       return 'Error';
     }
