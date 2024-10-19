@@ -135,6 +135,7 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
       ContextModel cm = ContextModel();
       double eval = exp.evaluate(EvaluationType.REAL, cm);
 
+      // If evaluation is successful, return result
       return eval.toString();
     } catch (e) {
       // In case of any error, return 'Error'
