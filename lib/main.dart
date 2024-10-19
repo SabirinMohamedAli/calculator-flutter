@@ -116,7 +116,6 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
     );
   }
 
-  // Function to evaluate the user's input and calculate the result
   String calculateAnswer() {
     // Basic Validation Rules to avoid invalid expressions
     if (userInput.isEmpty || 
