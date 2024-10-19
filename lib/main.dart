@@ -30,7 +30,7 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            // Display Area
+            // Display Area for User Input
             Container(
               padding: EdgeInsets.all(20),
               alignment: Alignment.centerRight,
@@ -39,6 +39,7 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
                 style: TextStyle(fontSize: 48, color: Colors.white),
               ),
             ),
+            // Display Area for Result
             Container(
               padding: EdgeInsets.all(20),
               alignment: Alignment.centerRight,
@@ -88,11 +89,14 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
                 onPressed: () {
                   setState(() {
                     if (btn == 'AC') {
+                      // Clear input and output
                       userInput = '';
                       answer = '0';
                     } else if (btn == '=') {
+                      // Calculate the result
                       answer = calculateAnswer();
                     } else {
+                      // Add button pressed to userInput
                       userInput += btn;
                     }
                   });
@@ -112,21 +116,31 @@ class _MyCalculatorAppState extends State<MyCalculatorApp> {
     );
   }
 
-  // Function to evaluate the user's input
-String calculateAnswer() {
-  try {
-    // Validation: Make sure there are no two operators together
-    if (userInput.contains(RegExp(r'[\+\-\*/]{2,}'))) {
+  // Function to evaluate the user's input and calculate the result
+  String calculateAnswer() {
+    // Basic Validation Rules to avoid invalid expressions
+    if (userInput.isEmpty || 
+        userInput.endsWith('+') || 
+        userInput.endsWith('-') || 
+        userInput.endsWith('*') || 
+        userInput.endsWith('/') || 
+        userInput.endsWith('%')) {
       return 'Error';
     }
-    Parser p = Parser();
-    Expression exp = p.parse(userInput);
-    ContextModel cm = ContextModel();
-    double eval = exp.evaluate(EvaluationType.REAL, cm);
-    return eval.toString();
-  } catch (e) {
-    return 'Error';
-  }
-}
 
+    try {
+      // Parsing and evaluating the mathematical expression
+      Parser p = Parser();
+      Expression exp = p.parse(userInput);
+      ContextModel cm = ContextModel();
+      double eval = exp.evaluate(EvaluationType.REAL, cm);
+
+      // If evaluation is successful, return result
+      return eval.toString();
+    } catch (e) {
+      // In case of any error, return 'Error'
+      print("Error encountered: $e");
+      return 'Error';
+    }
+  }
 }
